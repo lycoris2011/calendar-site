@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Antipolo Technology High School</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Poppins, sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      background: url('Untitled design.png') center/cover no-repeat;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      color: white;
+      text-align: center;
+    }
+
+    body::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 20, 60, 0.75);
+      z-index: 0;
+    }
+
+    header {
+      position: absolute;
+      top: 25px;
+      left: 40px;
+      right: 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1;
+    }
+
+    .school-info {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .school-info img {
+      width: 70px; /* increased from 55px */
+      height: 70px;
+      object-fit: contain;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 5px;
+    }
+
+    .school-text {
+      text-align: left;
+      line-height: 1.4;
+    }
+
+    .school-text h1 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: white;
+    }
+
+    .school-text p {
+      font-size: 0.9rem;
+      color: #dcdcdc;
+    }
+
+    .header-logos {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+    }
+
+    .header-logos img {
+      height: 70px;
+      object-fit: contain;
+    }
+
+    .main-content {
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+    }
+
+    .main-content img {
+      width: 230px;
+      height: 230px;
+      object-fit: contain;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 10px;
+    }
+
+    .calendar-button {
+      display: inline-block;
+      font-size: 1.2rem;
+      text-decoration: none;
+      color: white;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 15px 45px;
+      border-radius: 40px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      border: 1.5px solid white;
+      transition: all 0.3s ease;
+    }
+
+    .calendar-button:hover {
+      background: white;
+      color: #001f3f;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="school-info">
+      <img src="Adobe Express - file (1).png" alt="ATHS Small Logo">
+      <div class="school-text">
+        <h1>Antipolo Technology High School</h1>
+        <p>Sitio Cabading, Brgy. San Jose, Antipolo City</p>
+        <p>321507@deped.gov.ph</p>
+      </div>
+    </div>
+
+    <div class="header-logos">
+      <img src="Screenshot_2025-10-15_112512-removebg-preview.png" alt="DepEd Logo">
+      <img src="Screenshot_2025-10-15_112522-removebg-preview.png" alt="Bagong Pilipinas Logo">
+      <img src="Adobe Express - file (2).png" alt="Kagawaran ng Edukasyon Logo">
+    </div>
+  </header>
+
+  <div class="main-content">
+    <img src="Adobe Express - file (1).png" alt="ATHS Main Logo">
+    <a href="calendar.html" class="calendar-button">School Year 2025–2026 Calendar</a>
+  </div>
+</body>
+</html>

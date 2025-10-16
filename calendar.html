@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SY 2025–2026 Calendar | Antipolo Technology High School</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; font-family:Poppins, sans-serif; }
+
+    body{
+      background:url('Untitled design.png') center/cover no-repeat;
+      color:#fff; height:100vh; display:flex; align-items:center; justify-content:center; position:relative;
+    }
+    body::after{content:"";position:absolute;inset:0;background:rgba(0,15,40,.6);z-index:0;}
+
+    header{
+      position:absolute; top:25px; left:40px; display:flex; align-items:center; gap:12px; z-index:2;
+    }
+    header img{width:60px;height:60px;object-fit:contain;border-radius:50%;background:rgba(255,255,255,.1);padding:4px;}
+    header h1{font-size:1.3rem;font-weight:600;white-space:nowrap;}
+
+    main{display:flex; gap:80px; align-items:center; justify-content:center; height:100%; z-index:1; position:relative;}
+
+    .calendar-box{
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,215,0,.4);
+      border-radius:25px; backdrop-filter:blur(2px);
+      padding:40px 50px; width:500px; box-shadow:0 0 20px rgba(0,0,0,.25);
+      display:flex; flex-direction:column; align-items:center; justify-content:flex-start;
+    }
+    .calendar-header{display:flex;justify-content:space-between;align-items:center;width:100%;margin-bottom:20px;}
+    .calendar-header h2{color:#FFD700;font-size:1.5rem;}
+    .calendar-header button{background:none;border:none;color:#FFD700;font-size:1.8rem;cursor:pointer;transition:.3s;}
+    .calendar-header button:hover{transform:scale(1.2);color:#fff;}
+
+    table{width:100%;border-collapse:collapse;table-layout:fixed;}
+    th, td{ text-align:center; padding:12px; border-radius:8px; transition:.2s; height:50px; }
+    th{ color:#FFD700; font-weight:600; }
+    td{ cursor:pointer; }
+    td:hover{ background:rgba(255,215,0,.3); }
+    .has-event{ color:#FFD700; font-weight:600; position:relative; }
+    .has-event::after{
+      content:""; position:absolute; bottom:6px; left:50%; transform:translateX(-50%);
+      width:6px; height:6px; border-radius:50%; background:#FFD700;
+    }
+
+    .event-panel{display:flex;align-items:center;justify-content:center;height:470px;}
+    .event-box{
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,215,0,.5);
+      border-radius:25px; padding:40px; width:400px; height:100%;
+      backdrop-filter:blur(3px); box-shadow:0 0 15px rgba(0,0,0,.2);
+      display:flex; flex-direction:column; justify-content:center; text-align:center;
+    }
+    .event-box h3{color:#FFD700; font-size:1.5rem; margin-bottom:16px;}
+    .event-details{font-size:1.05rem; line-height:1.55;}
+  </style>
+</head>
+<body>
+  <header>
+    <img src="Adobe Express - file (1).png" alt="ATHS Logo">
+    <h1>Antipolo Technology High School</h1>
+  </header>
+
+  <main>
+    <div class="calendar-box">
+      <div class="calendar-header">
+        <button id="prevMonth" aria-label="Previous Month">◀</button>
+        <h2 id="monthYear">April 2025</h2>
+        <button id="nextMonth" aria-label="Next Month">▶</button>
+      </div>
+
+      <table id="calendar">
+        <thead>
+          <tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div class="event-panel">
+      <div class="event-box">
+        <h3>Event Details</h3>
+        <div id="eventDetails" class="event-details">Click a date to view events.</div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // ===== Utilities to store multiple events per day + add ranges =====
+    const eventsMap = {}; // { "YYYY-MM-DD": [ "Event A", "Event B" ] }
+
+    const addEvent = (y, mIndex, d, text) => {
+      const key = `${y}-${String(mIndex+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
+      if(!eventsMap[key]) eventsMap[key] = [];
+      if(!eventsMap[key].includes(text)) eventsMap[key].push(text);
+    };
+    const addRange = (y, mIndex, dStart, dEnd, text) => {
+      for(let d=dStart; d<=dEnd; d++) addEvent(y, mIndex, d, text);
+    };
+
+    // ===== Encode ALL events (April 2025 → July 2026), individually =====
+    // APRIL 2025 (m=3)
+    addRange(2025,3,7,8,"Fourth Academic Quarter Examination");
+    addEvent(2025,3,9,"The Day of Valor (Regular Holiday)");
+    addRange(2025,3,10,11,"EOSY Deliberation of Honors");
+    addRange(2025,3,14,16,"EOSY Rites");
+    addEvent(2025,3,17,"Start of 30-day Teachers’ EOSY Break");
+    addEvent(2025,3,17,"Maundy Thursday (Regular Holiday)");
+    addEvent(2025,3,18,"Good Friday (Regular Holiday)");
+
+    // MAY 2025 (m=4)
+    addEvent(2025,4,1,"Labor Day (Regular Holiday)");
+    addEvent(2025,4,8,"Start of BBM and Summer Remedial Classes");
+    addEvent(2025,4,12,"National and Local Election Day");
+    addEvent(2025,4,13,"Start of Literacy Remediation, Learning Camp, and Remedial Programs by Regions");
+    addRange(2025,4,13,16,"Operation Linis NSPC and NFOT");
+    addRange(2025,4,19,23,"Operation Linis NSPC and NFOT");
+    addRange(2025,4,24,31,"Palarong Pambansa");
+
+    // JUNE 2025 (m=5)
+    addEvent(2025,5,1,"End of 30-day Teachers’ EOSY Break");
+    addEvent(2025,5,6,"End of Training Window for Teachers, School Leaders, and Teaching-Related Personnel");
+    addEvent(2025,5,6,"End of BBM, Summer Remedial, and Learning Camp Programs");
+    addEvent(2025,5,9,"Start of Mandatory Learners’ Health Assessment");
+    addRange(2025,5,9,13,"Brigada Eskwela / Enrollment Period");
+    addRange(2025,5,9,20,"Oplan Balik Eskwela");
+    addEvent(2025,5,12,"Independence Day (Regular Holiday)");
+    addEvent(2025,5,16,"Beginning of School Year / Start of Quarter 1");
+    addEvent(2025,5,16,"Start of Testing Window for BoSY Assessments");
+    addEvent(2025,5,23,"DepEd Founding Anniversary: Flag Raising Ceremony");
+    addEvent(2025,5,24,"DepEd Founding Anniversary: Anniversary Proper");
+
+    // JULY 2025 (m=6)
+    addEvent(2025,6,4,"End of Health Assessment and BoSY Testing");
+    addRange(2025,6,15,17,"Instructional Leadership Enhancement Training");
+    addRange(2025,6,22,24,"Instructional Leadership Enhancement Training");
+    addRange(2025,6,29,31,"Instructional Leadership Enhancement Training");
+    addRange(2025,6,21,25,"National Federation SELG & SSLG Elections");
+    addRange(2025,6,28,31,"Start of Testing Window for ELLN");
+
+    // AUGUST 2025 (m=7)
+    addEvent(2025,7,1,"End of Testing Window for ELLN");
+    addEvent(2025,7,1,"White Cane Safety Day");
+    addEvent(2025,7,9,"National Indigenous Peoples Day");
+    addEvent(2025,7,12,"International Youth Day");
+    addEvent(2025,7,20,"Academic Quarter 1 Examination (Day 1)");
+    addEvent(2025,7,22,"Academic Quarter 1 Examination (Day 2)");
+    addEvent(2025,7,21,"Ninoy Aquino Day (Non-Working Holiday)");
+    addEvent(2025,7,22,"End of Quarter 1");
+    addEvent(2025,7,25,"National Heroes Day (Regular Holiday)");
+    addEvent(2025,7,26,"Start of Quarter 2");
+    addRange(2025,7,26,29,"NAT Grade 10 Testing Window");
+    addEvent(2025,7,30,"Parent-Teacher Conference");
+
+    // SEPTEMBER 2025 (m=8)
+    addEvent(2025,8,5,"End of NAT Grade 10 Testing");
+    addRange(2025,8,5,30,"National Teachers’ Month (continues to Oct 5)");
+    addEvent(2025,8,8,"International Literacy Day");
+    addEvent(2025,8,21,"International Day of Peace");
+    addEvent(2025,8,29,"Family Week (Last Week of September)"); // marker day
+
+    // OCTOBER 2025 (m=9)
+    addRange(2025,9,1,5,"National Teachers’ Month (Culmination Oct 5)");
+    addEvent(2025,9,5,"World Teachers’ Day / Culmination of Teachers’ Month");
+    addRange(2025,9,23,24,"Academic Quarter 2 Examination");
+    addEvent(2025,9,24,"End of Quarter 2");
+    addRange(2025,9,27,31,"Mid-School Year Wellness Break");
+    addEvent(2025,9,31,"All Saints’ Day Eve (Special Non-Working Holiday)");
+
+    // NOVEMBER 2025 (m=10)
+    addEvent(2025,10,1,"All Saints’ Day");
+    addEvent(2025,10,2,"All Souls’ Day");
+    addEvent(2025,10,3,"Start of Quarter 3");
+    addEvent(2025,10,8,"Parent-Teacher Conference");
+    addEvent(2025,10,27,"Araw ng Pagbasa");
+    addEvent(2025,10,30,"Andres Bonifacio Day (Regular Holiday)");
+
+    // DECEMBER 2025 (m=11)
+    addEvent(2025,11,8,"Feast of the Immaculate Conception");
+    addRange(2025,11,20,31,"Year-End Break");
+    addEvent(2025,11,25,"Christmas Day");
+    addEvent(2025,11,30,"Rizal Day");
+    addEvent(2025,11,31,"Last Day of the Year");
+
+    // JANUARY 2026 (m=0)
+    addEvent(2026,0,5,"Resumption of Classes");
+    addEvent(2026,0,19,"NAT Grade 12 Testing Window (Start)");
+    addRange(2026,0,22,23,"Quarter 3 Examination");
+    addEvent(2026,0,26,"Start of Quarter 4");
+    addEvent(2026,0,31,"Start of Early Registration & Parent-Teacher Conference");
+
+    // FEBRUARY 2026 (m=1)
+    addRange(2026,1,2,6,"End of NAT Grade 12 Testing");
+    addEvent(2026,1,17,"Chinese New Year");
+    addEvent(2026,1,18,"Start of EoSY Testing Window");
+    addEvent(2026,1,27,"End of Early Registration");
+    addRange(2026,1,22,25,"EDSA People Power Commemoration Week");
+
+    // MARCH 2026 (m=2)
+    addRange(2026,2,9,20,"EoSY Testing (CRLA, RMA, Phil-IRI, etc.)");
+    addRange(2026,2,19,20,"Quarter 4 Examination");
+    addRange(2026,2,23,27,"EOSY Deliberation of Honors");
+    addRange(2026,2,30,31,"EOSY Rites");
+
+    // APRIL 2026 (m=3)
+    addEvent(2026,3,1,"Parent-Teacher Conference");
+    addEvent(2026,3,1,"Start of 30-day Teachers’ EOSY Break");
+    addEvent(2026,3,2,"Maundy Thursday");
+    addEvent(2026,3,3,"Good Friday");
+    addEvent(2026,3,9,"Day of Valor");
+    addRange(2026,3,27,30,"NSPC and NFOT");
+
+    // MAY 2026 (m=4)
+    addEvent(2026,4,4,"End of NSPC and NFOT");
+    addRange(2026,4,4,8,"Start of EOSY Intervention Program");
+    addRange(2026,4,23,31,"Palarong Pambansa");
+    addEvent(2026,4,28,"Flag Day");
+    addRange(2026,4,28, /* to */ 31,"Display of National Flag (to Jun 12)"); // will continue in June
+
+    // JUNE 2026 (m=5)
+    addRange(2026,5,1,5,"Brigada Eskwela / Enrollment");
+    addEvent(2026,5,8,"Indicative Opening of SY 2026–2027");
+    addEvent(2026,5,12,"Independence Day");
+    addEvent(2026,5,12,"Display of National Flag (final day)");
+    addEvent(2026,5,23,"DepEd Founding Anniversary");
+
+    // JULY 2026 (m=6)
+    addEvent(2026,6,23,"Philippines–Japan Friendship Day");
+
+    // ===== Calendar rendering (always 6 rows) =====
+    const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+    let currentMonth = 3; // April
+    let currentYear  = 2025;
+
+    const tbody = document.querySelector("#calendar tbody");
+    const monthYear = document.getElementById("monthYear");
+    const eventDetails = document.getElementById("eventDetails");
+
+    function renderCalendar(){
+      tbody.innerHTML = "";
+      monthYear.textContent = `${monthNames[currentMonth]} ${currentYear}`;
+
+      const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+      const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+      let row = document.createElement("tr");
+      let dayCount = 0;
+
+      // leading blanks
+      for(let i=0;i<firstDay;i++){ row.appendChild(document.createElement("td")); dayCount++; }
+
+      // days
+      for(let d=1; d<=daysInMonth; d++){
+        const td = document.createElement("td");
+        td.textContent = d;
+
+        const key = `${currentYear}-${String(currentMonth+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
+        const has = eventsMap[key];
+
+        if(has){
+          td.classList.add("has-event");
+          td.title = has.join(" • ");
+        }
+
+        td.onclick = () => {
+          if(has){
+            eventDetails.innerHTML = has.map(e => `• ${e}`).join("<br>");
+          } else {
+            eventDetails.textContent = "No events for this date.";
+          }
+        };
+
+        row.appendChild(td);
+        dayCount++;
+        if(dayCount % 7 === 0){ tbody.appendChild(row); row = document.createElement("tr"); }
+      }
+
+      // trailing blanks to finish last row
+      while(dayCount % 7 !== 0){ row.appendChild(document.createElement("td")); dayCount++; }
+      tbody.appendChild(row);
+
+      // ensure 6 total rows (stable height)
+      const totalRows = tbody.querySelectorAll("tr").length;
+      for(let i=totalRows; i<6; i++){
+        const extra = document.createElement("tr");
+        for(let j=0;j<7;j++) extra.appendChild(document.createElement("td"));
+        tbody.appendChild(extra);
+      }
+    }
+
+    document.getElementById("prevMonth").onclick = () => {
+      currentMonth = (currentMonth + 11) % 12;
+      if(currentMonth === 11) currentYear--;
+      renderCalendar();
+    };
+    document.getElementById("nextMonth").onclick = () => {
+      currentMonth = (currentMonth + 1) % 12;
+      if(currentMonth === 0) currentYear++;
+      renderCalendar();
+    };
+
+    renderCalendar();
+  </script>
+</body>
+</html>
